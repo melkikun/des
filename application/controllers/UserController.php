@@ -15,7 +15,10 @@ class UserController extends CI_Controller {
 
     function index() {
         $this->cekSession();
-        $this->load->view('dashboard');
+        $sidebar = $this->load->view('template/sidebar', '', TRUE);
+        $header = $this->load->view('template/header', '', TRUE);
+        $footer = $this->load->view('template/footer', '', TRUE);
+        $this->load->view('dashboard', compact('sidebar', 'header', 'footer'));
     }
 
     function dashboard() {
@@ -100,6 +103,11 @@ class UserController extends CI_Controller {
                 return redirect('/');
             }
         }
+    }
+    
+    function logout(){
+        $this->session->unset_userdata(logged_in);
+        redirect('login');
     }
     
     function cekSession(){
