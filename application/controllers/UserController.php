@@ -9,8 +9,8 @@ class UserController extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-         $this->load->library('form_validation');
-         $this->load->model("UserModel");
+        $this->load->library('form_validation');
+        $this->load->model("UserModel");
     }
 
     function index() {
@@ -23,25 +23,27 @@ class UserController extends CI_Controller {
 
     function dashboard() {
         $this->cekSession();
-       $this->load->view('dashboard');
+        $sidebar = $this->load->view('template/sidebar', '', TRUE);
+        $header = $this->load->view('template/header', '', TRUE);
+        $footer = $this->load->view('template/footer', '', TRUE);
+        $data = "miko";
+        $this->load->view('dashboard', compact('sidebar', 'header', 'footer'));
     }
 
     function login() {
         if ($this->session->userdata('logged_in')) {
             redirect('dashboard');
-         }else{
-             $this->load->view('login');
-         }
-        
+        } else {
+            $this->load->view('login');
+        }
     }
 
     function register() {
-//        if ($this->session->userdata('logged_in')) {
-//            redirect('dashboard');
-//         }else{
-//             $this->load->view('register');
-//         }
-        
+        if ($this->session->userdata('logged_in')) {
+            redirect('dashboard');
+        } else {
+            $this->load->view('register');
+        }
     }
 
     function userRegister() {
@@ -104,16 +106,16 @@ class UserController extends CI_Controller {
             }
         }
     }
-    
-    function logout(){
+
+    function logout() {
         $this->session->unset_userdata(logged_in);
         redirect('login');
     }
-    
-    function cekSession(){
-        if(!$this->session->userdata('logged_in')){
-             redirect('login');
-         }
+
+    function cekSession() {
+        if (!$this->session->userdata('logged_in')) {
+            redirect('login');
+        }
     }
 
 }
