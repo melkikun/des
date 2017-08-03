@@ -31,92 +31,44 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box box-primary">
+                                <?php
+                                echo form_open_multipart('proses/input');
+                                ?>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label for="exampleInputEmail1">Judul</label>
+                                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Masukkan Judul">
+                                            </div>
 
-                                <form role="form">
-                                    <div class="box-body">
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <div class="col-sm-6">
-                                                    <label for="exampleInputEmail1">Judul</label>
-                                                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Masukkan Judul">
-                                                </div>
-                                                <div class="col-sm-6"> 
-                                                    <label for="exampleInputPassword1">Tahun</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
+                                            <div class="col-sm-6"> 
+                                                <label for="exampleInputPassword1">Tahun 1</label>
+                                                <input type="file" class="form-control" id="tahun1" class="form-control" name="tahun1">
                                             </div>
-                                        </div>
-                                        <hr/>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Januari</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Februari</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Maret</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
+                                            
+                                            <div class="col-sm-6"> 
+                                                <label for="exampleInputPassword1">Tahun 1</label>
+                                                <input type="file" class="form-control" id="tahun1" class="form-control" name="tahun2">
                                             </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">April</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Mei</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Juni</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Juli</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Agustus</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">September</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Oktober</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Nopember</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Desember</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukkan Tahun">
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
-                                    <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary col-sm-12">Submit</button>
-                                    </div>
-                                </form>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary col-sm-12">Submit</button>
+                                </div>
+                                <?php
+                                echo form_close();
+                                ;
+                                ?>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
             <!--footer-->
-            <?php echo "$footer"; ?>
+<?php echo "$footer"; ?>
             <!--end footer-->
         </div>
 

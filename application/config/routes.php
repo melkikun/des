@@ -58,3 +58,6 @@ $route['logout']='usercontroller/logout';
 $route['register']='usercontroller/register';
 $route['user/register']='usercontroller/userRegister';
 $route['user/login']='usercontroller/userLogin';
+
+
+$route['proses/input']='processcontroller/getData';

@@ -1,7 +1,6 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-require './vendor/autoload.php';
 
 /**
  * 
@@ -12,8 +11,6 @@ class UserController extends CI_Controller {
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model("UserModel");
-
-//        $loader = new Twig_Loader_Filesystem('views');
     }
 
     function index() {
@@ -29,21 +26,15 @@ class UserController extends CI_Controller {
         $sidebar = $this->load->view('template/sidebar', '', TRUE);
         $header = $this->load->view('template/header', '', TRUE);
         $footer = $this->load->view('template/footer', '', TRUE);
-        $data = "miko";
         $this->load->view('dashboard', compact('sidebar', 'header', 'footer'));
     }
 
     function login() {
-        $loader = new Twig_Loader_Filesystem(APPPATH . "views");
-        $twig = new Twig_Environment($loader);
-
-        echo $twig->render('index.html', array('name' => 'Fabien'));
-        echo APPPATH . "views\index.html";
-//        if ($this->session->userdata('logged_in')) {
-//            redirect('dashboard');
-//        } else {
-//            $this->load->view('login');
-//        }
+       if ($this->session->userdata('logged_in')) {
+           redirect('dashboard');
+       } else {
+           $this->load->view('login');
+       }
     }
 
     function register() {
