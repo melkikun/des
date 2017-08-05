@@ -61,3 +61,4 @@ $route['user/login']='usercontroller/userLogin';
 
 
 $route['proses/input']='processcontroller/getData';
+$route['proses/proses-data']='processcontroller/prosesData';

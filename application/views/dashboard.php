@@ -66,6 +66,7 @@
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-sm-6">
+                                            <h4 class="text-center">Data Tahun 2014</h4>
                                             <table class="table table-striped table-bordered" id="table-1">
                                                 <thead>
                                                     <tr>
@@ -126,6 +127,7 @@
                                             </table>
                                         </div>
                                         <div class="col-sm-6">
+                                            <h4 class="text-center">Data Tahun 2015</h4>
                                             <table class="table table-striped table-bordered" id="table-2">
                                                 <thead>
                                                     <tr>
@@ -226,12 +228,10 @@
                                                         contentType: false,
                                                         processData: false,
                                                         beforeSend: function (xhr) {
-//                                                                $('#table-1').find("tbody").empty();
-//                                                                $('#table-2').find("tbody").empty();
                                                         },
                                                         success: function (response, textStatus, jqXHR) {
                                                             if (response.error == 1) {
-                                                                alert(response.error);
+                                                                alert(response.message);
                                                             } else {
                                                                 for (var i = 0; i < response.file1.length; i++) {
                                                                     $('#one-' + (i + 1)).text(response.file1[i]);
@@ -243,15 +243,37 @@
 
                                                         },
                                                         complete: function (jqXHR, textStatus) {
-
                                                         }
                                                     });
                                                 }
 
                                                 function prosesData() {
-                                                alert("123");
-                                                    $('#table-1 tr:eq(2) td').each(function () {
-                                                        alert($(this).text());
+                                                    var data1 = [];
+                                                    var data2 = [];
+                                                    $('#table-1').find("tbody").find("tr").each(function (i) {
+                                                        var td = $(this).find("th");
+                                                        data1.push(td.eq(1).text())
+                                                    });
+
+                                                    $('#table-2').find("tbody").find("tr").each(function (i) {
+                                                        var td = $(this).find("th");
+                                                        data2.push(td.eq(1).text())
+                                                    });
+
+                                                    $.ajax({
+                                                        type: 'GET',
+                                                        url: "<?php echo base_url(); ?>proses/proses-data",
+                                                        data: {data1: data1, data2: data2},
+                                                        dataType: 'JSON',
+                                                        beforeSend: function (xhr) {
+
+                                                        },
+                                                        success: function (response, textStatus, jqXHR) {
+
+                                                        },
+                                                        complete: function (jqXHR, textStatus) {
+
+                                                        }
                                                     });
                                                 }
         </script>

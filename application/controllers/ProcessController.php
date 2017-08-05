@@ -11,6 +11,7 @@ class ProcessController extends CI_Controller {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
         $this->load->library('excel');
+        $this->load->library('peramalan');
     }
 
     public function index() {
@@ -64,40 +65,21 @@ class ProcessController extends CI_Controller {
                 echo 'tidak ada file';
             }
         }
-        
-//        function
-
-//        echo $pasal.$tahun;
-////        untuk upload file
-//        $config['upload_path'] = './uploads/';
-//        $config['allowed_types'] = 'xls|xlsx';
-//        $config['file_ext_tolower'] = 'xls';
-//        $config['file_name'] = uniqid();
-////        config upload file
-//        $this->load->library('upload', $config);
-////        Alternately you can set preferences by calling the ``initialize()`` method. Useful if you auto-load the class:
-//        $this->upload->initialize($config);
-//        if (!$this->upload->do_upload('excel')) {
-//            echo 0;
-//        } else {
-//            $tmpfname = "./uploads/" . $config['file_name'] . ".xlsx";
-//            if (file_exists($tmpfname)) {
-//                $excelReader = PHPExcel_IOFactory::createReaderForFile($tmpfname);
-//                $excelObj = $excelReader->load($tmpfname);
-//                $worksheet = $excelObj->getSheet(0);
-//                $lastRow = $worksheet->getHighestRow();
-//
-//                echo "<table>";
-//                for ($row = 1; $row <= $lastRow; $row++) {
-//                    echo "<tr><td>";
-//                    echo $worksheet->getCell('B' . $row)->getValue();
-//                    echo "</td><tr>";
-//                }
-//                echo "</table>";
-//            }else{
-//                echo 'tidak ada file';
-//            }
-//        }
+    }
+    
+    public function prosesData(){
+        $data1 = $this->input->get("data1");
+        $data2 = $this->input->get("data2");
+        $alpha01 = $this->peramalan->hitung(0.1,$data1);
+        $alpha02 = $this->peramalan->hitung(0.2,$data1);
+        $alpha03 = $this->peramalan->hitung(0.3,$data1);
+        $alpha04 = $this->peramalan->hitung(0.4,$data1);
+        $alpha05 = $this->peramalan->hitung(0.5,$data1);
+        $alpha06 = $this->peramalan->hitung(0.6,$data1);
+        $alpha07 = $this->peramalan->hitung(0.7,$data1);
+        $alpha08 = $this->peramalan->hitung(0.8,$data1);
+        $alpha09 = $this->peramalan->hitung(0.9,$data1);
+        echo json_encode($alpha01, JSON_PRETTY_PRINT);
     }
 
 }
