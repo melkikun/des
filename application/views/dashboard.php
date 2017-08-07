@@ -60,6 +60,8 @@
                             </div>
                         </div>
                     </div>
+                </section>
+                <section class="content">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box box-primary">
@@ -196,6 +198,7 @@
                         </div>
                     </div>
                 </section>
+                <section id="hitung" class="content"></section>
             </div>
             <!--footer-->
             <?php echo "$footer"; ?>
@@ -264,12 +267,11 @@
                                                         type: 'GET',
                                                         url: "<?php echo base_url(); ?>proses/proses-data",
                                                         data: {data1: data1, data2: data2},
-                                                        dataType: 'JSON',
                                                         beforeSend: function (xhr) {
 
                                                         },
                                                         success: function (response, textStatus, jqXHR) {
-
+                                                            $('#hitung').html(response);
                                                         },
                                                         complete: function (jqXHR, textStatus) {
 

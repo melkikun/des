@@ -17,175 +17,211 @@ if (!defined('BASEPATH'))
 class Peramalan {
 
     var $ci;
-    private $s1 = array();
-    private $s2 = array();
-    private $a = array();
-    private $b = array();
-    private $s1aksen = "";
-    private $s2aksen = "";
-    private $s3aksen = "";
-    private $s4aksen = "";
-    private $s5aksen = "";
-    private $s6aksen = "";
-    private $s7aksen = "";
-    private $s8aksen = "";
-    private $s9aksen = "";
-    private $s10aksen = "";
-    private $s11aksen = "";
-    private $s12aksen = "";
-    private $s1double = "";
-    private $s2double = "";
-    private $s3double = "";
-    private $s4double = "";
-    private $s5double = "";
-    private $s6double = "";
-    private $s7double = "";
-    private $s8double = "";
-    private $s9double = "";
-    private $s10double = "";
-    private $s11double = "";
-    private $s12double = "";
-    private $a1 = "";
-    private $a2 = "";
-    private $a3 = "";
-    private $a4 = "";
-    private $a5 = "";
-    private $a6 = "";
-    private $a7 = "";
-    private $a8 = "";
-    private $a9 = "";
-    private $a10 = "";
-    private $a11 = "";
-    private $a12 = "";
-    private $b1 = "";
-    private $b2 = "";
-    private $b3 = "";
-    private $b4 = "";
-    private $b5 = "";
-    private $b6 = "";
-    private $b7 = "";
-    private $b8 = "";
-    private $b9 = "";
-    private $b10 = "";
-    private $b11 = "";
-    private $b12 = "";
 
     public function __construct() {
-        $this->ci = &get_instance();
+        $ci = &get_instance();
     }
 
     public function hitung($alpha, $data) {
-        $this->s1aksen = $alpha * $data[0] + (1 - $alpha) * $data[0];
-        $this->s2aksen = $alpha * $data[1] + (1 - $alpha) * $this->s1aksen;
-        $this->s3aksen = $alpha * $data[2] + (1 - $alpha) * $this->s2aksen;
-        $this->s4aksen = $alpha * $data[3] + (1 - $alpha) * $this->s3aksen;
-        $this->s5aksen = $alpha * $data[4] + (1 - $alpha) * $this->s4aksen;
-        $this->s6aksen = $alpha * $data[5] + (1 - $alpha) * $this->s5aksen;
-        $this->s7aksen = $alpha * $data[6] + (1 - $alpha) * $this->s6aksen;
-        $this->s8aksen = $alpha * $data[7] + (1 - $alpha) * $this->s7aksen;
-        $this->s9aksen = $alpha * $data[8] + (1 - $alpha) * $this->s8aksen;
-        $this->s10aksen = $alpha * $data[9] + (1 - $alpha) * $this->s9aksen;
-        $this->s11aksen = $alpha * $data[10] + (1 - $alpha) * $this->s10aksen;
-        $this->s12aksen = $alpha * $data[11] + (1 - $alpha) * $this->s11aksen;
-        array_push($this->s1, number_format($this->s1aksen, 2));
-        array_push($this->s1, number_format($this->s2aksen, 2));
-        array_push($this->s1, number_format($this->s3aksen, 2));
-        array_push($this->s1, number_format($this->s4aksen, 2));
-        array_push($this->s1, number_format($this->s5aksen, 2));
-        array_push($this->s1, number_format($this->s6aksen, 2));
-        array_push($this->s1, number_format($this->s7aksen, 2));
-        array_push($this->s1, number_format($this->s8aksen, 2));
-        array_push($this->s1, number_format($this->s9aksen, 2));
-        array_push($this->s1, number_format($this->s10aksen, 2));
-        array_push($this->s1, number_format($this->s11aksen, 2));
-        array_push($this->s1, number_format($this->s12aksen, 2));
+        $s1 = array();
+        $s2 = array();
+        $a = array();
+        $b = array();
+        $peramalan = array();
+        $error = array();
+        $errorAbsolute = array();
+        $totalErrorAbsolute = 0;
 
-        $this->s1double = $alpha * $this->s1aksen + (1 - $alpha) * $data[0];
-        $this->s2double = $alpha * $this->s2aksen + (1 - $alpha) * $this->s1double;
-        $this->s3double = $alpha * $this->s3aksen + (1 - $alpha) * $this->s2double;
-        $this->s4double = $alpha * $this->s4aksen + (1 - $alpha) * $this->s3double;
-        $this->s5double = $alpha * $this->s5aksen + (1 - $alpha) * $this->s4double;
-        $this->s6double = $alpha * $this->s6aksen + (1 - $alpha) * $this->s5double;
-        $this->s7double = $alpha * $this->s7aksen + (1 - $alpha) * $this->s6double;
-        $this->s8double = $alpha * $this->s8aksen + (1 - $alpha) * $this->s7double;
-        $this->s9double = $alpha * $this->s9aksen + (1 - $alpha) * $this->s8double;
-        $this->s10double = $alpha * $this->s10aksen + (1 - $alpha) * $this->s9double;
-        $this->s11double = $alpha * $this->s11aksen + (1 - $alpha) * $this->s10double;
-        $this->s12double = $alpha * $this->s12aksen + (1 - $alpha) * $this->s11double;
+        $s1aksen = $alpha * $data[0] + (1 - $alpha) * $data[0];
+        $s2aksen = $alpha * $data[1] + (1 - $alpha) * $s1aksen;
+        $s3aksen = $alpha * $data[2] + (1 - $alpha) * $s2aksen;
+        $s4aksen = $alpha * $data[3] + (1 - $alpha) * $s3aksen;
+        $s5aksen = $alpha * $data[4] + (1 - $alpha) * $s4aksen;
+        $s6aksen = $alpha * $data[5] + (1 - $alpha) * $s5aksen;
+        $s7aksen = $alpha * $data[6] + (1 - $alpha) * $s6aksen;
+        $s8aksen = $alpha * $data[7] + (1 - $alpha) * $s7aksen;
+        $s9aksen = $alpha * $data[8] + (1 - $alpha) * $s8aksen;
+        $s10aksen = $alpha * $data[9] + (1 - $alpha) * $s9aksen;
+        $s11aksen = $alpha * $data[10] + (1 - $alpha) * $s10aksen;
+        $s12aksen = $alpha * $data[11] + (1 - $alpha) * $s11aksen;
 
-        array_push($this->s2, number_format($this->s1double, 2));
-        array_push($this->s2, number_format($this->s2double, 2));
-        array_push($this->s2, number_format($this->s3double, 2));
-        array_push($this->s2, number_format($this->s4double, 2));
-        array_push($this->s2, number_format($this->s5double, 2));
-        array_push($this->s2, number_format($this->s6double, 2));
-        array_push($this->s2, number_format($this->s7double, 2));
-        array_push($this->s2, number_format($this->s8double, 2));
-        array_push($this->s2, number_format($this->s9double, 2));
-        array_push($this->s2, number_format($this->s10double, 2));
-        array_push($this->s2, number_format($this->s11double, 2));
-        array_push($this->s2, number_format($this->s12double, 2));
+        array_push($s1, $s1aksen);
+        array_push($s1, $s2aksen);
+        array_push($s1, $s3aksen);
+        array_push($s1, $s4aksen);
+        array_push($s1, $s5aksen);
+        array_push($s1, $s6aksen);
+        array_push($s1, $s7aksen);
+        array_push($s1, $s8aksen);
+        array_push($s1, $s9aksen);
+        array_push($s1, $s10aksen);
+        array_push($s1, $s11aksen);
+        array_push($s1, $s12aksen);
 
+        $s1double = $alpha * $s1aksen + (1 - $alpha) * $data[0];
+        $s2double = $alpha * $s2aksen + (1 - $alpha) * $s1double;
+        $s3double = $alpha * $s3aksen + (1 - $alpha) * $s2double;
+        $s4double = $alpha * $s4aksen + (1 - $alpha) * $s3double;
+        $s5double = $alpha * $s5aksen + (1 - $alpha) * $s4double;
+        $s6double = $alpha * $s6aksen + (1 - $alpha) * $s5double;
+        $s7double = $alpha * $s7aksen + (1 - $alpha) * $s6double;
+        $s8double = $alpha * $s8aksen + (1 - $alpha) * $s7double;
+        $s9double = $alpha * $s9aksen + (1 - $alpha) * $s8double;
+        $s10double = $alpha * $s10aksen + (1 - $alpha) * $s9double;
+        $s11double = $alpha * $s11aksen + (1 - $alpha) * $s10double;
+        $s12double = $alpha * $s12aksen + (1 - $alpha) * $s11double;
 
-        $this->a1 = 2 * $this->s1aksen - $this->s1double;
-        $this->a2 = 2 * $this->s2aksen - $this->s2double;
-        $this->a3 = 2 * $this->s3aksen - $this->s3double;
-        $this->a4 = 2 * $this->s4aksen - $this->s4double;
-        $this->a5 = 2 * $this->s5aksen - $this->s5double;
-        $this->a6 = 2 * $this->s6aksen - $this->s6double;
-        $this->a7 = 2 * $this->s7aksen - $this->s7double;
-        $this->a8 = 2 * $this->s8aksen - $this->s8double;
-        $this->a9 = 2 * $this->s9aksen - $this->s9double;
-        $this->a10 = 2 * $this->s10aksen - $this->s10double;
-        $this->a11 = 2 * $this->s11aksen - $this->s11double;
-        $this->a12 = 2 * $this->s12aksen - $this->s12double;
+        array_push($s2, $s1double);
+        array_push($s2, $s2double);
+        array_push($s2, $s3double);
+        array_push($s2, $s4double);
+        array_push($s2, $s5double);
+        array_push($s2, $s6double);
+        array_push($s2, $s7double);
+        array_push($s2, $s8double);
+        array_push($s2, $s9double);
+        array_push($s2, $s10double);
+        array_push($s2, $s11double);
+        array_push($s2, $s12double);
 
 
-        array_push($this->a, number_format($this->a1, 2));
-        array_push($this->a, number_format($this->a2, 2));
-        array_push($this->a, number_format($this->a3, 2));
-        array_push($this->a, number_format($this->a4, 2));
-        array_push($this->a, number_format($this->a5, 2));
-        array_push($this->a, number_format($this->a6, 2));
-        array_push($this->a, number_format($this->a7, 2));
-        array_push($this->a, number_format($this->a8, 2));
-        array_push($this->a, number_format($this->a9, 2));
-        array_push($this->a, number_format($this->a10, 2));
-        array_push($this->a, number_format($this->a11, 2));
-        array_push($this->a, number_format($this->a12, 2));
-        
-        
-        $this->b1 = $alpha/(1-$alpha)*($this->s1aksen-$this->s1double);
-        $this->b2 = $alpha/(1-$alpha)*($this->s2aksen-$this->s2double);
-        $this->b3 = $alpha/(1-$alpha)*($this->s3aksen-$this->s3double);
-        $this->b4 = $alpha/(1-$alpha)*($this->s4aksen-$this->s4double);
-        $this->b5 = $alpha/(1-$alpha)*($this->s5aksen-$this->s5double);
-        $this->b6 = $alpha/(1-$alpha)*($this->s6aksen-$this->s6double);
-        $this->b7 = $alpha/(1-$alpha)*($this->s7aksen-$this->s7double);
-        $this->b8 = $alpha/(1-$alpha)*($this->s8aksen-$this->s8double);
-        $this->b9 = $alpha/(1-$alpha)*($this->s9aksen-$this->s9double);
-        $this->b10 = $alpha/(1-$alpha)*($this->s10aksen-$this->s10double);
-        $this->b11 = $alpha/(1-$alpha)*($this->s11aksen-$this->s11double);
-        $this->b12 = $alpha/(1-$alpha)*($this->s12aksen-$this->s12double);
-        
-        array_push($this->b, number_format($this->b1, 2));
-        array_push($this->b, number_format($this->b2, 2));
-        array_push($this->b, number_format($this->b3, 2));
-        array_push($this->b, number_format($this->b4, 2));
-        array_push($this->b, number_format($this->b5, 2));
-        array_push($this->b, number_format($this->b6, 2));
-        array_push($this->b, number_format($this->b7, 2));
-        array_push($this->b, number_format($this->b8, 2));
-        array_push($this->b, number_format($this->b9, 2));
-        array_push($this->b, number_format($this->b10, 2));
-        array_push($this->b, number_format($this->b11, 2));
-        array_push($this->b, number_format($this->b12, 2));
+        $a1 = 2 * $s1aksen - $s1double;
+        $a2 = 2 * $s2aksen - $s2double;
+        $a3 = 2 * $s3aksen - $s3double;
+        $a4 = 2 * $s4aksen - $s4double;
+        $a5 = 2 * $s5aksen - $s5double;
+        $a6 = 2 * $s6aksen - $s6double;
+        $a7 = 2 * $s7aksen - $s7double;
+        $a8 = 2 * $s8aksen - $s8double;
+        $a9 = 2 * $s9aksen - $s9double;
+        $a10 = 2 * $s10aksen - $s10double;
+        $a11 = 2 * $s11aksen - $s11double;
+        $a12 = 2 * $s12aksen - $s12double;
+
+
+        array_push($a, $a1);
+        array_push($a, $a2);
+        array_push($a, $a3);
+        array_push($a, $a4);
+        array_push($a, $a5);
+        array_push($a, $a6);
+        array_push($a, $a7);
+        array_push($a, $a8);
+        array_push($a, $a9);
+        array_push($a, $a10);
+        array_push($a, $a11);
+        array_push($a, $a12);
+
+
+        $b1 = $alpha / (1 - $alpha) * ($s1aksen - $s1double);
+        $b2 = $alpha / (1 - $alpha) * ($s2aksen - $s2double);
+        $b3 = $alpha / (1 - $alpha) * ($s3aksen - $s3double);
+        $b4 = $alpha / (1 - $alpha) * ($s4aksen - $s4double);
+        $b5 = $alpha / (1 - $alpha) * ($s5aksen - $s5double);
+        $b6 = $alpha / (1 - $alpha) * ($s6aksen - $s6double);
+        $b7 = $alpha / (1 - $alpha) * ($s7aksen - $s7double);
+        $b8 = $alpha / (1 - $alpha) * ($s8aksen - $s8double);
+        $b9 = $alpha / (1 - $alpha) * ($s9aksen - $s9double);
+        $b10 = $alpha / (1 - $alpha) * ($s10aksen - $s10double);
+        $b11 = $alpha / (1 - $alpha) * ($s11aksen - $s11double);
+        $b12 = $alpha / (1 - $alpha) * ($s12aksen - $s12double);
+
+        array_push($b, $b1);
+        array_push($b, $b2);
+        array_push($b, $b3);
+        array_push($b, $b4);
+        array_push($b, $b5);
+        array_push($b, $b6);
+        array_push($b, $b7);
+        array_push($b, $b8);
+        array_push($b, $b9);
+        array_push($b, $b10);
+        array_push($b, $b11);
+        array_push($b, $b12);
+
+        $peramalan1 = 0;
+        $peramalan2 = $a1 + $b1;
+        $peramalan3 = $a2 + $b2;
+        $peramalan4 = $a3 + $b3;
+        $peramalan5 = $a4 + $b4;
+        $peramalan6 = $a5 + $b5;
+        $peramalan7 = $a6 + $b6;
+        $peramalan8 = $a7 + $b7;
+        $peramalan9 = $a8 + $b8;
+        $peramalan10 = $a9 + $b9;
+        $peramalan11 = $a10 + $b10;
+        $peramalan12 = $a11 + $b11;
+
+        array_push($peramalan, $peramalan1);
+        array_push($peramalan, $peramalan2);
+        array_push($peramalan, $peramalan3);
+        array_push($peramalan, $peramalan4);
+        array_push($peramalan, $peramalan5);
+        array_push($peramalan, $peramalan6);
+        array_push($peramalan, $peramalan7);
+        array_push($peramalan, $peramalan8);
+        array_push($peramalan, $peramalan9);
+        array_push($peramalan, $peramalan10);
+        array_push($peramalan, $peramalan11);
+        array_push($peramalan, $peramalan12);
+
+        $error1 = 0;
+        $error2 = ($data[1] - $peramalan2) / $data[1] * 100;
+        $error3 = ($data[2] - $peramalan3) / $data[2] * 100;
+        $error4 = ($data[3] - $peramalan4) / $data[3] * 100;
+        $error5 = ($data[4] - $peramalan5) / $data[4] * 100;
+        $error6 = ($data[5] - $peramalan6) / $data[5] * 100;
+        $error7 = ($data[6] - $peramalan7) / $data[6] * 100;
+        $error8 = ($data[7] - $peramalan8) / $data[7] * 100;
+        $error9 = ($data[8] - $peramalan9) / $data[8] * 100;
+        $error10 = ($data[9] - $peramalan10) / $data[9] * 100;
+        $error11 = ($data[10] - $peramalan11) / $data[10] * 100;
+        $error12 = ($data[11] - $peramalan12) / $data[11] * 100;
+
+
+        array_push($error, $error1);
+        array_push($error, $error2);
+        array_push($error, $error3);
+        array_push($error, $error4);
+        array_push($error, $error5);
+        array_push($error, $error6);
+        array_push($error, $error7);
+        array_push($error, $error8);
+        array_push($error, $error9);
+        array_push($error, $error10);
+        array_push($error, $error11);
+        array_push($error, $error12);
+
+
+        array_push($errorAbsolute, abs($error1));
+        array_push($errorAbsolute, abs($error2));
+        array_push($errorAbsolute, abs($error3));
+        array_push($errorAbsolute, abs($error4));
+        array_push($errorAbsolute, abs($error5));
+        array_push($errorAbsolute, abs($error6));
+        array_push($errorAbsolute, abs($error7));
+        array_push($errorAbsolute, abs($error8));
+        array_push($errorAbsolute, abs($error9));
+        array_push($errorAbsolute, abs($error10));
+        array_push($errorAbsolute, abs($error11));
+        array_push($errorAbsolute, abs($error12));
+
+
+        for ($i = 0; $i < count($errorAbsolute); $i++) {
+            $totalErrorAbsolute += $errorAbsolute[$i];
+        }
 
         $array = array(
-            "s1" => $this->s1,
-            "s2" => $this->s2,
-            "a" => $this->a,
-            "b" => $this->b
+            "alpha" => $alpha,
+            "s1" => $s1,
+            "s2" => $s2,
+            "a" => $a,
+            "b" => $b,
+            "peramalan" => $peramalan,
+            "error" => $error,
+            "absolute" => $errorAbsolute,
+            "totalAbsolute" => $totalErrorAbsolute,
+            "mape" => $totalErrorAbsolute / 12
         );
         return $array;
     }
