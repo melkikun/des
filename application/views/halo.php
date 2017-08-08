@@ -29,11 +29,7 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $alpha = 0.1;
-                                $terkecil = 9999999999;
                                 foreach ($data as $key => $value) {
-                                    if ($terkecil > $value['mape'])
-                                        $terkecil = $alpha;
                                     ?>
                                     <tr <?php if ($mape == $value['mape']) echo "style='background-color:red;'"; ?>>
                                         <td><?php echo $value['alpha']; ?></td>
@@ -42,7 +38,6 @@
                                         <td><?php echo number_format($value['mape'], 2); ?></td>
                                     </tr>
                                     <?php
-                                    $aplha = $alpha + 0.1;
                                 }
                                 ?>
                             </tbody>
@@ -112,10 +107,10 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box box-primary">
-            <div class="box-body">
-                Kesimpulan : Dapat disimpulkan dalam peramalan ini MAPE yang terkecil terdapat pada alpha <b><i><?php echo $terkecil ?></i></b> 
+            <div class="box-body text-danger">
+                Kesimpulan : Dapat disimpulkan dalam peramalan ini MAPE yang terkecil terdapat pada alpha <b><i><?php echo $alphaTerkecil['alpha'] ?></i></b> 
                 dengan nilai MAPE <b><i><?php echo number_format($mape,2) ?></i></b>,
-                dan hasil peramalan bulan januari tahun berikutnya adalah <?php echo number_format($next, 0, ",", ".");?> kecelakaan
+                dan hasil peramalan bulan januari tahun berikutnya adalah <?php echo number_format(($alphaTerkecil['a'][11]+$alphaTerkecil['b'][11]), 2, ",", ".");?> kecelakaan
             </div>
         </div>
     </div>
@@ -124,7 +119,7 @@
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-body">
-               <h4 class="text-center">Prediksi Tahun 2015</h4>
+                <h4 class="text-center">Prediksi tahun 2015 menggunakan alpha <?php echo $alphaTerkecil['alpha'] ?></h4>
             </div>
         </div>
     </div>

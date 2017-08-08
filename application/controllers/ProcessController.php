@@ -79,25 +79,14 @@ class ProcessController extends CI_Controller {
         $alpha07 = $this->peramalan->hitung(0.7, $data1);
         $alpha08 = $this->peramalan->hitung(0.8, $data1);
         $alpha09 = $this->peramalan->hitung(0.9, $data1);
-        $mape = [$alpha01['mape'], $alpha02['mape'], $alpha03['mape'], $alpha04['mape'], $alpha05['mape'], $alpha06['mape'], $alpha07['mape'], $alpha08['mape'], $alpha09['mape']];
+        $alpha = [$alpha01, $alpha02, $alpha03, $alpha04, $alpha05, $alpha06, $alpha07, $alpha08, $alpha09];
         $bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        $next = [
-            $alpha01['a'][11] + $alpha01['b'][11],
-            $alpha02['a'][11] + $alpha01['b'][11],
-            $alpha03['a'][11] + $alpha01['b'][11],
-            $alpha04['a'][11] + $alpha01['b'][11],
-            $alpha05['a'][11] + $alpha01['b'][11],
-            $alpha06['a'][11] + $alpha01['b'][11],
-            $alpha07['a'][11] + $alpha01['b'][11],
-            $alpha08['a'][11] + $alpha01['b'][11],
-            $alpha09['a'][11] + $alpha01['b'][11],
-        ];
-        $terkecil = 9999999999999;
-        $index = "";
-        for ($i = 0; $i < count($mape); $i++) {
-            if ($mape[$i] < $terkecil) {
-                $terkecil = $mape[$i];
-                $index = $next[$i];
+        $mapeTerkecil = 9999999999999;
+        $alphaTerkecil = $alpha[0];
+        for ($i = 0; $i < count($alpha); $i++) {
+            if ($alpha[$i]['mape'] < $mapeTerkecil) {
+                $mapeTerkecil = $alpha[$i]['mape'];
+                $alphaTerkecil = $alpha[$i];
             }
         }
         $return = array(
@@ -105,8 +94,8 @@ class ProcessController extends CI_Controller {
             "data1" => $data1,
             "data2" => $data2,
             "bulan" => $bulan,
-            "mape" => $terkecil,
-            "next" => $index,
+            "mape" => $mapeTerkecil,
+            "alphaTerkecil" => $alphaTerkecil,
             "data" => array(
                 "alpha01" => $alpha01,
                 "alpha02" => $alpha02,
@@ -119,8 +108,6 @@ class ProcessController extends CI_Controller {
                 "alpha09" => $alpha09
             )
         );
-//        echo json_encode($return, JSON_PRETTY_PRINT);
-//        exit();
         echo $this->load->view("halo", $return, TRUE);
     }
 
