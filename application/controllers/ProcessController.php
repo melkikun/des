@@ -68,46 +68,48 @@ class ProcessController extends CI_Controller {
     }
 
     public function prosesData() {
+        $bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         $data1 = $this->input->get("data1");
         $data2 = $this->input->get("data2");
-        $alpha01 = $this->peramalan->hitung(0.1, $data1);
-        $alpha02 = $this->peramalan->hitung(0.2, $data1);
-        $alpha03 = $this->peramalan->hitung(0.3, $data1);
-        $alpha04 = $this->peramalan->hitung(0.4, $data1);
-        $alpha05 = $this->peramalan->hitung(0.5, $data1);
-        $alpha06 = $this->peramalan->hitung(0.6, $data1);
-        $alpha07 = $this->peramalan->hitung(0.7, $data1);
-        $alpha08 = $this->peramalan->hitung(0.8, $data1);
-        $alpha09 = $this->peramalan->hitung(0.9, $data1);
-        $alpha = [$alpha01, $alpha02, $alpha03, $alpha04, $alpha05, $alpha06, $alpha07, $alpha08, $alpha09];
-        $bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        $mapeTerkecil = 9999999999999;
-        $alphaTerkecil = $alpha[0];
-        for ($i = 0; $i < count($alpha); $i++) {
-            if ($alpha[$i]['mape'] < $mapeTerkecil) {
-                $mapeTerkecil = $alpha[$i]['mape'];
-                $alphaTerkecil = $alpha[$i];
+        $s1 = array();
+        $s2 = array();
+        $at = array();
+        $bt = array();
+        $peramalan = array();
+        $error = array();
+        $absolute = array();
+        for ($alpha = 0.1, $index = 0; $alpha <= 0.9; $alpha += 0.1, $index++) {
+            $s1[$index] = $this->peramalan->sAksen($alpha, $data1);
+            $s2[$index] = $this->peramalan->sDoubleAksen($alpha, $s1[$index]);
+            $at[$index] = $this->peramalan->konstantaA($s1[$index], $s2[$index]);
+            $bt[$index] = $this->peramalan->konstantaB($alpha, $s1[$index], $s2[$index]);
+            $peramalan[$index] = $this->peramalan->peramalan($at[$index], $bt[$index]);
+            $error[$index] = $this->peramalan->error($data1, $peramalan[$index]);
+            $absolute[$index] = $this->peramalan->absoluteError($error[$index]);
+        }
+
+        $mapeTerkecil = 99999999999;
+        $mapeIndex = 0;
+        for ($i = 0; $i < count($absolute); $i++) {
+            if ($mapeTerkecil > (array_sum($absolute[$i]) / 12)) {
+                $mapeTerkecil = (array_sum($absolute[$i]) / 12);
+                $mapeIndex = $i;
             }
         }
         $return = array(
-            "error" => "0",
-            "data1" => $data1,
-            "data2" => $data2,
+            "s1" => $s1,
+            "s2" => $s2,
+            "at" => $at,
+            "bt" => $bt,
+            "peramalan" => $peramalan,
+            "error" => $error,
+            "absolute" => $absolute,
+            "index" => $mapeIndex,
             "bulan" => $bulan,
-            "mape" => $mapeTerkecil,
-            "alphaTerkecil" => $alphaTerkecil,
-            "data" => array(
-                "alpha01" => $alpha01,
-                "alpha02" => $alpha02,
-                "alpha03" => $alpha03,
-                "alpha04" => $alpha04,
-                "alpha05" => $alpha05,
-                "alpha06" => $alpha06,
-                "alpha07" => $alpha07,
-                "alpha08" => $alpha08,
-                "alpha09" => $alpha09
-            )
+            "data1" => $data1,
+            "data2" => $data2
         );
+//        echo json_encode($s1);
         echo $this->load->view("halo", $return, TRUE);
     }
 
