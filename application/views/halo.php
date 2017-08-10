@@ -43,9 +43,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php for ($x = 0, $alpha=0.1; $x < count($absolute); $x++, $alpha+=0.1): ?>
+                    <?php
+                    for ($x = 0, $alpha = 0.1; $x < count($absolute); $x++, $alpha += 0.1):
+                        ?>
                         <div id="menu<?= $x ?>" class="tab-pane fade">
-                            <h3>ALPHA <?=$alpha?></h3>
+                            <h3>ALPHA <?= $alpha ?></h3>
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -90,9 +92,9 @@
                                         <td class="text-center">-</td>
                                         <td class="text-center">-</td>
                                         <td class="text-center">-</td>
-                                        <td class="text-center"><?php echo number_format($at[$x][11]+$bt[$x][11],2);?></td>
+                                        <td class="text-center"><?php echo number_format($at[$x][11] + $bt[$x][11], 2); ?></td>
                                         <td class="text-center">-</td>
-                                        <td class="text-center"><?php echo number_format(array_sum($absolute[$x])/count($bulan),2);?></td>
+                                        <td class="text-center"><?php echo number_format(array_sum($absolute[$x]) / count($bulan), 2); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -107,9 +109,9 @@
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-body text-danger">
-                Kesimpulan : Dapat disimpulkan dalam peramalan ini MAPE yang terkecil terdapat pada alpha <b><i><?php echo $alphaTerkecil['alpha'] ?></i></b> 
-                dengan nilai MAPE <b><i><?php echo number_format($mape, 2) ?></i></b>,
-                dan hasil peramalan bulan januari tahun berikutnya adalah <?php echo number_format(($alphaTerkecil['a'][11] + $alphaTerkecil['b'][11]), 2, ",", "."); ?> kecelakaan
+                Kesimpulan : Dapat disimpulkan dalam peramalan ini MAPE yang terkecil terdapat pada alpha <b><i><?php echo $alphax ?></i></b> 
+                dengan nilai MAPE <b><i><?php echo number_format(array_sum($absolute[$index]) / count($bulan), 2) ?></i></b>,
+                dan hasil peramalan bulan januari tahun berikutnya adalah <?php echo number_format($at[$index][11] + $bt[$index][11], 2); ?> kecelakaan
             </div>
         </div>
     </div>
@@ -119,6 +121,34 @@
         <div class="box box-primary">
             <div class="box-body">
                 <h4 class="text-center">Prediksi tahun 2015 menggunakan alpha <?php echo $alphaTerkecil['alpha'] ?></h4>
+                <div class="col-sm-12">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Periode</th>
+                                <th class="text-center">Hasil Peramalan</th>
+                                <th class="text-center">Data Actual</th>
+                                <th class="text-center">PE</th>
+                                <th class="text-center">APE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            for ($i = 12, $j = 0; $i < count($nextPeramalan['s1Peramalan']); $i++, $j++) {
+                                ?>
+                                <tr>
+                                    <th class="text-center"><?php echo $bulan[$j]; ?></th>
+                                    <th class="text-center"><?php echo $nextPeramalan['peramalanPeramalan'][$i]; ?></th>
+                                    <th class="text-center"><?php echo $data2[$j]; ?></th>
+                                    <th class="text-center"><?php echo $nextPeramalan['errorPeramalan'][$i]; ?></th>
+                                    <th class="text-center"><?php echo $nextPeramalan['absolutePeramalan'][$i]; ?></th>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

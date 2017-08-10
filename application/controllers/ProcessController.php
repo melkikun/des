@@ -90,12 +90,32 @@ class ProcessController extends CI_Controller {
 
         $mapeTerkecil = 99999999999;
         $mapeIndex = 0;
-        for ($i = 0; $i < count($absolute); $i++) {
+        $alpha = 0;
+        for ($i = 0, $x = 0.1; $i < count($absolute); $i++, $x += 0.1) {
             if ($mapeTerkecil > (array_sum($absolute[$i]) / 12)) {
                 $mapeTerkecil = (array_sum($absolute[$i]) / 12);
                 $mapeIndex = $i;
+                $alpha = $x;
             }
         }
+        $s1Peramalan = $this->peramalan->sAksen($alpha, array_merge($data1, $data2));
+        $s2Peramalan = $this->peramalan->sDoubleAksen($alpha, $s1Peramalan);
+        $atPeramalan = $this->peramalan->konstantaA($s1Peramalan, $s2Peramalan);
+        $btPeramalan = $this->peramalan->konstantaB($alpha, $s1Peramalan, $s2Peramalan);
+        $peramalanPeramalan = $this->peramalan->peramalan($atPeramalan, $btPeramalan);
+        $errorPeramalan = $this->peramalan->error(array_merge($data1, $data2), $peramalanPeramalan);
+        $absolutePeramalan = $this->peramalan->absoluteError($errorPeramalan);
+        $nextPeramalan = array(
+            "s1Peramalan" => $s1Peramalan,
+            "s2Peramalan" => $s2Peramalan,
+            "atPeramalan" => $atPeramalan,
+            "btPeramalan" => $btPeramalan,
+            "peramalanPeramalan" => $peramalanPeramalan,
+            "errorPeramalan" => $errorPeramalan,
+            "absolutePeramalan" => $absolutePeramalan,
+        );
+
+
         $return = array(
             "s1" => $s1,
             "s2" => $s2,
@@ -107,10 +127,12 @@ class ProcessController extends CI_Controller {
             "index" => $mapeIndex,
             "bulan" => $bulan,
             "data1" => $data1,
-            "data2" => $data2
+            "data2" => $data2,
+            "nextPeramalan" => $nextPeramalan,
+            "alphax" => $alpha
         );
-//        echo json_encode($s1);
-        echo $this->load->view("halo", $return, TRUE);
+
+        echo $this->load->view('halo', $return, FALSE);
     }
 
 }
