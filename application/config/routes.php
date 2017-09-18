@@ -53,6 +53,7 @@ $route['default_controller'] = 'usercontroller';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
 $route['dashboard']='usercontroller/dashboard';
+$route['lihat']='usercontroller/lihatData';
 $route['login']='usercontroller/login';
 $route['logout']='usercontroller/logout';
 $route['register']='usercontroller/register';
@@ -62,3 +63,5 @@ $route['user/login']='usercontroller/userLogin';
 
 $route['proses/input']='processcontroller/getData';
 $route['proses/proses-data']='processcontroller/prosesData';
+$route['proses/simpan']='processcontroller/simpanData';
+$route['data/(:any)'] = 'processcontroller/lihatData/$1';

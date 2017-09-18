@@ -20,7 +20,8 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+//		$this->load->view('welcme_message');
+        echo "123";
 	}
 
 	public function halo($id){

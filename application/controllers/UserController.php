@@ -11,6 +11,7 @@ class UserController extends CI_Controller {
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model("UserModel");
+        $this->load->model("DataModel");
     }
 
     function index() {
@@ -30,11 +31,11 @@ class UserController extends CI_Controller {
     }
 
     function login() {
-       if ($this->session->userdata('logged_in')) {
-           redirect('dashboard');
-       } else {
-           $this->load->view('login');
-       }
+        if ($this->session->userdata('logged_in')) {
+            redirect('dashboard');
+        } else {
+            $this->load->view('login');
+        }
     }
 
     function register() {
@@ -65,7 +66,7 @@ class UserController extends CI_Controller {
                 $data = $this->UserModel->registerUser($array);
                 if ($data == 1) {
                     echo "berhasil register";
-                    // return redirect("home");
+                     return redirect("login");
                 } else {
                     $this->session->set_flashdata("gagal_register", "anda gagal register, hubungi administrator");
                     return redirect("register");
@@ -95,7 +96,6 @@ class UserController extends CI_Controller {
                 $this->session->set_flashdata("gagal_login", "Username atau password salah");
                 return redirect("login");
             } else {
-
                 $session = array(
                     "id" => $data->row()->id,
                     "username" => $data->row()->username
@@ -115,6 +115,15 @@ class UserController extends CI_Controller {
         if (!$this->session->userdata('logged_in')) {
             redirect('login');
         }
+    }
+    
+    function lihatData(){
+        $this->cekSession();
+        $data = $this->DataModel->ambilData();
+        $sidebar = $this->load->view('template/sidebar', '', TRUE);
+        $header = $this->load->view('template/header', '', TRUE);
+        $footer = $this->load->view('template/footer', '', TRUE);
+        $this->load->view('lihat_data', compact('sidebar', 'header', 'footer', 'data'));
     }
 
 }

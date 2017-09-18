@@ -120,7 +120,7 @@
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-body">
-                <h4 class="text-center">Prediksi tahun 2015 menggunakan alpha <?php echo $alphaTerkecil['alpha'] ?></h4>
+                <h4 class="text-center">Prediksi tahun berikutnya menggunakan alpha <?php echo $alphax ?></h4>
                 <div class="col-sm-12">
                     <table class="table table-striped table-bordered">
                         <thead>
@@ -153,3 +153,86 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-body">
+                <h4 class="text-center">Chart(Grafik)</h4>
+                <div class="col-sm-6">
+                    <div id="container"></div>
+                </div>
+                <div class="col-sm-6">
+                    <div id="container2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var data1 = <?php echo json_encode($data1, JSON_NUMERIC_CHECK);?>;
+    var data2 = <?php echo json_encode($data2, JSON_NUMERIC_CHECK);?>;
+    $(document).ready(function () {
+        Highcharts.chart('container', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Grafik Tahun Pertama '
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yAxis: {
+                title: {
+                    text: 'Data Kecelakaan'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                    name: 'Tahun 1',
+                    data: data1
+                }]
+        });
+        Highcharts.chart('container2', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Grafik Tahun Kedua '
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yAxis: {
+                title: {
+                    text: 'Data Kecelakaan'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                    name: 'Tahun 2',
+                    data: data2
+                }]
+        });
+    });
+</script>

@@ -12,6 +12,7 @@ class ProcessController extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         $this->load->library('excel');
         $this->load->library('peramalan');
+        $this->load->model("DataModel");
     }
 
     public function index() {
@@ -132,7 +133,71 @@ class ProcessController extends CI_Controller {
             "alphax" => $alpha
         );
 
-        echo $this->load->view('halo', $return, FALSE);
+        echo $this->load->view('hasil', $return, FALSE);
+    }
+
+    public function simpanData() {
+        $pasal = $this->input->post("pasal");
+        $tahun = $this->input->post("tahun");
+        $pertama = $_FILES['pertama']['name'];
+        $extPertama = pathinfo($pertama, PATHINFO_EXTENSION);
+        $kedua = $_FILES['kedua']['name'];
+        $extKedua = pathinfo($kedua, PATHINFO_EXTENSION);
+        if ($pasal == "") {
+            echo json_encode(array("error" => "1", "message" => "pasal harus diisi"));
+        } else if ($tahun == "") {
+            echo json_encode(array("error" => "1", "message" => "tahun harus diisi"));
+        } else if ($pertama == null) {
+            echo json_encode(array("error" => "1", "message" => "file pertama harus diisi atau file pertama harus excel"));
+        } else if ($kedua == null) {
+            echo json_encode(array("error" => "1", "message" => "file pertama harus diisi atau file pertama harus excel"));
+        } else {
+            $array1 = array();
+            $array2 = array();
+            $file1 = $_FILES['pertama']['tmp_name'];
+            $file2 = $_FILES['kedua']['tmp_name'];
+            if (file_exists($file1) && file_exists($file2)) {
+                $excelReader = PHPExcel_IOFactory::createReaderForFile($file1);
+                $excelObj = $excelReader->load($file1);
+                $worksheet = $excelObj->getSheet(0);
+                $lastRow = $worksheet->getHighestRow();
+                for ($row = 2; $row <= $lastRow; $row++) {
+                    array_push($array1, $worksheet->getCell('B' . $row)->getValue());
+                }
+
+                $excelReader = PHPExcel_IOFactory::createReaderForFile($file2);
+                $excelObj = $excelReader->load($file2);
+                $worksheet = $excelObj->getSheet(0);
+                $lastRow = $worksheet->getHighestRow();
+                for ($row = 2; $row <= $lastRow; $row++) {
+                    array_push($array2, $worksheet->getCell('B' . $row)->getValue());
+                }
+                $input = array(
+                    "pasal" => $pasal,
+                    "tahun" => $tahun,
+                    "file1" => $array1,
+                    "file2" => $array2,
+                    "id" => $_SESSION['logged_in']['id']
+                );
+                $response_simpan = $this->DataModel->simpanData($input);
+                $gagal = in_array(false, $response_simpan);
+                if ($gagal == FALSE) {
+                    echo json_encode(1);
+                } else {
+                    echo json_encode(0);
+                }
+            } else {
+                echo json_encode(0);
+            }
+        }
+    }
+
+    public function lihatData($id) {
+        $data = $this->DataModel->ambilDetailData($id);
+        $sidebar = $this->load->view('template/sidebar', '', TRUE);
+        $header = $this->load->view('template/header', '', TRUE);
+        $footer = $this->load->view('template/footer', '', TRUE);
+        $this->load->view('lihat_detail_data', compact('sidebar', 'header', 'footer', 'data'));
     }
 
 }

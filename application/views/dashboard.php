@@ -3,29 +3,54 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>DES | Input Data</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>dist/css/AdminLTE.min.css">
         <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>bower_components/HighChart/css/highcharts.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <style>
+            #myDiv {
+                position: relative;
+                background-color: #C0DBF0;
+                width: 400px;
+                padding: 20px;
+            }
+
+            .loading-overlay {
+                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #fff;
+                opacity: 0.6;
+                z-index:100000
+            }
+
+            .spin-loader {
+                height: 100px;
+                background: url("http://i62.tinypic.com/2hzsro.gif") no-repeat center center transparent;
+                position: relative;
+                top: 25%;
+            }
+        </style>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
             <?php echo "$header"; ?>
             <?php echo "$sidebar"; ?>
             <div class="content-wrapper">
+                <div class="loading-overlay">
+                    <div class="spin-loader"></div>
+                </div>
                 <section class="content-header">
                     <h1>
-                        General Form Elements
-                        <small>Preview</small>
+                        Peramalan Double Exponential Pelangaran Lalu Lintas Polrestabes Surabaya
                     </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li><a href="#">Forms</a></li>
-                        <li class="active">General Elements</li>
-                    </ol>
                 </section>
                 <section class="content">
                     <div class="row">
@@ -50,9 +75,11 @@
                                                 <label for="exampleInputEmail1">Excel Tahun Kedua</label>
                                                 <input type="file" class="form-control" id="kedua" name="kedua">
                                             </div>
-                                            <div class="col-sm-6">
-                                                <label for="exampleInputEmail1">&nbsp;</label>
-                                                <button type="button" class="btn btn-primary" onclick="lihatData();">Lihat Data</button>
+                                            <div class="col-sm-6" style="margin-top: 10px;">
+                                                <button type="button" class="btn btn-primary col-sm-12" onclick="lihatData();">Lihat Data</button>
+                                            </div>
+                                            <div class="col-sm-6" style="margin-top: 10px;">
+                                                <button type="button" class="btn btn-danger col-sm-12" onclick="simpanData();">Simpan Data Ke Database</button>
                                             </div>
                                         </div>
                                     </div>
@@ -60,6 +87,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="loader"></div>
                 </section>
                 <section class="content">
                     <div class="row">
@@ -199,6 +227,10 @@
                     </div>
                 </section>
                 <section id="hitung" class="content"></section>
+                <section>
+                    dasdasdasd
+                    <div id="container"></div>
+                </section>
             </div>
             <!--footer-->
             <?php echo "$footer"; ?>
@@ -206,11 +238,48 @@
         </div>
 
         <script src="<?php echo base_url('assets/'); ?>bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="<?php echo base_url('assets/'); ?>bower_components/HighChart/js/highcharts.js"></script>
         <script src="<?php echo base_url('assets/'); ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url('assets/'); ?>bower_components/fastclick/lib/fastclick.js"></script>
         <script src="<?php echo base_url('assets/'); ?>dist/js/adminlte.min.js"></script>
         <script src="<?php echo base_url('assets/'); ?>dist/js/demo.js"></script>
         <script>
+                                                $(document).ready(function () {
+                                                    Highcharts.chart('container', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Monthly Average Temperature'
+    },
+    subtitle: {
+        text: 'Source: WorldClimate.com'
+    },
+    xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    yAxis: {
+        title: {
+            text: 'Temperature (°C)'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'Tokyo',
+        data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+    }, {
+        name: 'London',
+        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+    }]
+});
+                                                });
                                                 function lihatData() {
                                                     var pasal = $('#pasal').val();
                                                     var tahun = $('#tahun').val();
@@ -231,6 +300,7 @@
                                                         contentType: false,
                                                         processData: false,
                                                         beforeSend: function (xhr) {
+                                                            $('.loading-overlay').show();
                                                         },
                                                         success: function (response, textStatus, jqXHR) {
                                                             if (response.error == 1) {
@@ -246,6 +316,7 @@
 
                                                         },
                                                         complete: function (jqXHR, textStatus) {
+                                                            $('.loading-overlay').hide();
                                                         }
                                                     });
                                                 }
@@ -268,13 +339,53 @@
                                                         url: "<?php echo base_url(); ?>proses/proses-data",
                                                         data: {data1: data1, data2: data2},
                                                         beforeSend: function (xhr) {
-
+                                                            $('.loading-overlay').show();
                                                         },
                                                         success: function (response, textStatus, jqXHR) {
                                                             $('#hitung').html(response);
                                                         },
                                                         complete: function (jqXHR, textStatus) {
+                                                            $('.loading-overlay').hide();
+                                                        }
+                                                    });
+                                                }
 
+                                                function simpanData() {
+                                                    var pasal = $('#pasal').val();
+                                                    var tahun = $('#tahun').val();
+                                                    var pertama = $('#pertama')[0].files[0];
+                                                    var kedua = $('#kedua')[0].files[0];
+                                                    var formData = new FormData();
+                                                    formData.append("pasal", pasal);
+                                                    formData.append("tahun", tahun);
+                                                    formData.append("pertama", pertama);
+                                                    formData.append("kedua", kedua);
+                                                    $.ajax({
+                                                        url: "<?php echo base_url(); ?>proses/simpan",
+                                                        type: 'POST',
+                                                        dataType: 'json',
+                                                        data: formData,
+                                                        async: false,
+                                                        cache: false,
+                                                        contentType: false,
+                                                        processData: false,
+                                                        beforeSend: function (xhr) {
+                                                            $('.loading-overlay').show();
+                                                        },
+                                                        success: function (response, textStatus, jqXHR) {
+                                                            if (response.error == 1) {
+                                                                alert(response.message);
+                                                            } else {
+                                                                if (response == 1) {
+                                                                    alert("berhasil simpan data");
+                                                                } else {
+                                                                    alert("gagal simpan data");
+                                                                }
+                                                            }
+
+                                                        },
+                                                        complete: function (jqXHR, textStatus) {
+                                                            $('.loading-overlay').hide();
                                                         }
                                                     });
                                                 }
