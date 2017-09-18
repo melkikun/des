@@ -59,14 +59,14 @@ class UserController extends CI_Controller {
                 "password" => $password
             );
             $duplikat = $this->duplikatUserRegister($username);
-            if ($duplikat->result_array() == NULL) {
+            if ($duplikat->result_array() != NULL) {
                 $this->session->set_flashdata("duplikat", "User sudah ada silahkan ganti dengan yang lain");
                 return redirect("register");
             } else {
                 $data = $this->UserModel->registerUser($array);
                 if ($data == 1) {
-                    echo "berhasil register";
-                     return redirect("login");
+                    $this->session->set_flashdata("berhasil_register", "anda berhasil register, silahkan login menggunakan username dan password");
+                    return redirect("login");
                 } else {
                     $this->session->set_flashdata("gagal_register", "anda gagal register, hubungi administrator");
                     return redirect("register");

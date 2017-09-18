@@ -30,8 +30,15 @@
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Login / Register</p>
+                <p class="login-box-msg"></p>
                 <?php
+                if ($this->session->flashdata('berhasil_register')) {
+                    ?>
+                    <div class="alert alert-success text-center">
+                        <strong><?php echo $this->session->flashdata('berhasil_register') ?></strong> 
+                    </div>
+                    <?php
+                }
                 if ($this->session->flashdata('gagal_login')) {
                     ?>
                     <div class="alert alert-danger text-center">
@@ -46,7 +53,7 @@
                 ?>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" placeholder="Masukkan Username" name="username">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     <?php echo form_error('username', '<div class="text-danger">', '</div>'); ?>
                 </div>
                 <div class="form-group has-feedback">

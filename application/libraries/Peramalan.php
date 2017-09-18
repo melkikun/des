@@ -21,7 +21,7 @@ class Peramalan {
     public function __construct() {
         $ci = &get_instance();
     }
-
+    
     public function sAksen($alpha, $data) {
         $saksen = array();
         $saksen[0] = $data[0];

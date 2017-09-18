@@ -34,7 +34,7 @@
     </div>
 
     <div class="register-box-body">
-      <p class="login-box-msg">Register account baru {blog_title}</p>
+      <p class="login-box-msg">Register account baru</p>
       <?php
       if($this->session->flashdata('gagal_register')){
         ?>

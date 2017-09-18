@@ -156,9 +156,9 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="col-sm-6">
+<!--                                        <div class="col-sm-6">
                                             <button type="button" class="btn btn-danger" onclick="prosesData();">Process</button>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>

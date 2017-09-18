@@ -6,6 +6,7 @@
         <title>DES | Input Data</title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>datepicker/css/bootstrap-datepicker.css">
         <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>dist/css/AdminLTE.min.css">
         <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>dist/css/skins/_all-skins.min.css">
@@ -61,7 +62,7 @@
                                         <div class="form-group">
                                             <div class="col-sm-6">
                                                 <label for="exampleInputEmail1">Pasal Pelanggaran</label>
-                                                <input type="text" class="form-control" id="pasal" placeholder="Masukkan Pasal Pelanggaran" name="pasal" value="287">
+                                                <input type="text" class="form-control" id="pasal" placeholder="Masukkan Pasal Pelanggaran" name="pasal">
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="exampleInputEmail1">Tahun Pelanggaran</label>
@@ -239,46 +240,18 @@
 
         <script src="<?php echo base_url('assets/'); ?>bower_components/jquery/dist/jquery.min.js"></script>
         <script src="<?php echo base_url('assets/'); ?>bower_components/HighChart/js/highcharts.js"></script>
+        <script src="<?php echo base_url('assets/'); ?>datepicker/js/bootstrap-datepicker.js"></script>
         <script src="<?php echo base_url('assets/'); ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url('assets/'); ?>bower_components/fastclick/lib/fastclick.js"></script>
         <script src="<?php echo base_url('assets/'); ?>dist/js/adminlte.min.js"></script>
         <script src="<?php echo base_url('assets/'); ?>dist/js/demo.js"></script>
         <script>
                                                 $(document).ready(function () {
-                                                    Highcharts.chart('container', {
-    chart: {
-        type: 'line'
-    },
-    title: {
-        text: 'Monthly Average Temperature'
-    },
-    subtitle: {
-        text: 'Source: WorldClimate.com'
-    },
-    xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    },
-    yAxis: {
-        title: {
-            text: 'Temperature (°C)'
-        }
-    },
-    plotOptions: {
-        line: {
-            dataLabels: {
-                enabled: true
-            },
-            enableMouseTracking: false
-        }
-    },
-    series: [{
-        name: 'Tokyo',
-        data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-    }, {
-        name: 'London',
-        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-    }]
-});
+                                                    $("#tahun").datepicker({
+                                                        format: "yyyy", // Notice the Extra space at the beginning
+                                                        viewMode: "years",
+                                                        minViewMode: "years"
+                                                    });
                                                 });
                                                 function lihatData() {
                                                     var pasal = $('#pasal').val();
