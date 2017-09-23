@@ -26,7 +26,7 @@ class Peramalan {
         $saksen = array();
         $saksen[0] = $data[0];
         for ($i = 1; $i < count($data); $i++) {
-            $saksen[$i] = number_format($alpha * $data[$i] + (1 - $alpha) * $saksen[$i - 1], 2);
+            $saksen[$i] = $alpha * $data[$i] + (1 - $alpha) * $saksen[$i - 1];
         }
         return $saksen;
     }
@@ -35,7 +35,7 @@ class Peramalan {
         $sDoubleAksen = array();
         $sDoubleAksen[0] = $data[0];
         for ($i = 1; $i < count($data); $i++) {
-            $sDoubleAksen[$i] = number_format($alpha * $data[$i] + (1 - $alpha) * $sDoubleAksen[$i - 1], 2);
+            $sDoubleAksen[$i] = ($alpha * $data[$i] + (1 - $alpha) * $sDoubleAksen[$i - 1]);
         }
         return $sDoubleAksen;
     }
@@ -43,7 +43,7 @@ class Peramalan {
     public function konstantaA($sAksen, $sDoubleAksen) {
         $a = array();
         for ($i = 0; $i < count($sAksen); $i++) {
-            $a[$i] = number_format(2 * $sAksen[$i] - $sDoubleAksen[$i],2);
+            $a[$i] = (2 * $sAksen[$i] - $sDoubleAksen[$i]);
         }
         return $a;
     }
@@ -51,7 +51,7 @@ class Peramalan {
     public function konstantaB($alpha, $sAksen, $sDoubleAksen) {
         $b = array();
         for ($i = 0; $i < count($sAksen); $i++) {
-            $b[$i] = number_format($alpha/(1-$alpha)*( $sAksen[$i] - $sDoubleAksen[$i]),2);
+            $b[$i] = ($alpha/(1-$alpha)*( $sAksen[$i] - $sDoubleAksen[$i]));
         }
         return $b;
     }
@@ -60,7 +60,7 @@ class Peramalan {
         $peramalan = array();
         $peramalan[0] = 0;
         for($i = 1; $i < count($a); $i++){
-            $peramalan[$i] =  number_format($a[$i-1]+$b[$i-1],2);
+            $peramalan[$i] =  $a[$i-1]+$b[$i-1];
         }
         return $peramalan;
     }
@@ -69,7 +69,7 @@ class Peramalan {
         $error = array();
         $error[0] = 0;
         for($i = 1; $i < count($data); $i++){
-            $error[$i] =  number_format(($data[$i]-$peramalan[$i])/$data[$i]*100,2);
+            $error[$i] =  (($data[$i]-$peramalan[$i])/$data[$i]*100);
         }
         return $error;
     }

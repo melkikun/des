@@ -73,13 +73,13 @@
                                             <td class="text-center"><?php echo $bulan[$i]; ?></td>
                                             <td class="text-center"><?php echo $data1[$i]; ?></td>
                                             <td class="text-center"><?php echo $data1[$i]; ?></td>
-                                            <td class="text-center"><?php echo $s1[$x][$i]; ?></td>
-                                            <td class="text-center"><?php echo $s2[$x][$i]; ?></td>
-                                            <td class="text-center"><?php echo $at[$x][$i]; ?></td>
-                                            <td class="text-center"><?php echo $bt[$x][$i]; ?></td>
-                                            <td class="text-center"><?php echo $peramalan[$x][$i]; ?></td>
-                                            <td class="text-center"><?php echo $error[$x][$i]; ?></td>
-                                            <td class="text-center"><?php echo $absolute[$x][$i]; ?></td>
+                                            <td class="text-center"><?php echo number_format($s1[$x][$i], 2); ?></td>
+                                            <td class="text-center"><?php echo number_format($s2[$x][$i], 2); ?></td>
+                                            <td class="text-center"><?php echo number_format($at[$x][$i], 2); ?></td>
+                                            <td class="text-center"><?php echo number_format($bt[$x][$i], 2); ?></td>
+                                            <td class="text-center"><?php echo number_format($peramalan[$x][$i], 2); ?></td>
+                                            <td class="text-center"><?php echo number_format($error[$x][$i], 2); ?></td>
+                                            <td class="text-center"><?php echo number_format($absolute[$x][$i], 2); ?></td>
                                         </tr>
                                         <?php
                                     endfor;
@@ -138,10 +138,10 @@
                                 ?>
                                 <tr>
                                     <th class="text-center"><?php echo $bulan[$j]; ?></th>
-                                    <th class="text-center"><?php echo $nextPeramalan['peramalanPeramalan'][$i]; ?></th>
-                                    <th class="text-center"><?php echo $data2[$j]; ?></th>
-                                    <th class="text-center"><?php echo $nextPeramalan['errorPeramalan'][$i]; ?></th>
-                                    <th class="text-center"><?php echo $nextPeramalan['absolutePeramalan'][$i]; ?></th>
+                                    <th class="text-center"><?php echo number_format($nextPeramalan['peramalanPeramalan'][$i], 2); ?></th>
+                                    <th class="text-center"><?php echo number_format($data2[$j], 2); ?></th>
+                                    <th class="text-center"><?php echo number_format($nextPeramalan['errorPeramalan'][$i], 2); ?></th>
+                                    <th class="text-center"><?php echo number_format($nextPeramalan['absolutePeramalan'][$i], 2); ?></th>
                                 </tr>
                                 <?php
                             }
@@ -169,8 +169,8 @@
     </div>
 </div>
 <script>
-    var data1 = <?php echo json_encode($data1, JSON_NUMERIC_CHECK);?>;
-    var data2 = <?php echo json_encode($data2, JSON_NUMERIC_CHECK);?>;
+    var data1 = <?php echo json_encode($data1, JSON_NUMERIC_CHECK); ?>;
+    var data2 = <?php echo json_encode($data2, JSON_NUMERIC_CHECK); ?>;
     $(document).ready(function () {
         Highcharts.chart('container', {
             chart: {

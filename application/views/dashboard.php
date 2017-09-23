@@ -229,7 +229,6 @@
                 </section>
                 <section id="hitung" class="content"></section>
                 <section>
-                    dasdasdasd
                     <div id="container"></div>
                 </section>
             </div>
@@ -274,6 +273,7 @@
                                                         processData: false,
                                                         beforeSend: function (xhr) {
                                                             $('.loading-overlay').show();
+                                                            $('#hitung').html("");
                                                         },
                                                         success: function (response, textStatus, jqXHR) {
                                                             if (response.error == 1) {
