@@ -49,19 +49,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'usercontroller';
+$route['default_controller'] = 'UserController';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
-$route['dashboard']='usercontroller/dashboard';
-$route['lihat']='usercontroller/lihatData';
-$route['login']='usercontroller/login';
-$route['logout']='usercontroller/logout';
-$route['register']='usercontroller/register';
-$route['user/register']='usercontroller/userRegister';
-$route['user/login']='usercontroller/userLogin';
+$route['dashboard']='UserController/dashboard';
+$route['lihat']='UserController/lihatData';
+$route['login']='UserController/login';
+$route['logout']='UserController/logout';
+$route['register']='UserController/register';
+$route['user/register']='UserController/userRegister';
+$route['user/login']='UserController/userLogin';
 
 
-$route['proses/input']='processcontroller/getData';
-$route['proses/proses-data']='processcontroller/prosesData';
-$route['proses/simpan']='processcontroller/simpanData';
-$route['data/(:any)'] = 'processcontroller/lihatData/$1';
+$route['proses/input']='ProcessController/getData';
+$route['proses/proses-data']='ProcessController/prosesData';
+$route['proses/simpan']='ProcessController/simpanData';
+$route['data/(:any)'] = 'ProcessController/lihatData/$1';
