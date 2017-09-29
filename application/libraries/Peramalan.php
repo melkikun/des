@@ -26,7 +26,7 @@ class Peramalan {
         $saksen = array();
         $saksen[0] = $data[0];
         for ($i = 1; $i < count($data); $i++) {
-            $saksen[$i] = $alpha * $data[$i] + (1 - $alpha) * $saksen[$i - 1];
+            $saksen[$i] = $alpha * $data[$i-1] + (1 - $alpha) * $saksen[$i - 1];
         }
         return $saksen;
     }
@@ -58,9 +58,8 @@ class Peramalan {
     
     public function peramalan($a, $b){
         $peramalan = array();
-        $peramalan[0] = 0;
-        for($i = 1; $i < count($a); $i++){
-            $peramalan[$i] =  $a[$i-1]+$b[$i-1];
+        for($i = 0; $i < count($a); $i++){
+            $peramalan[$i] =  $a[$i]+($b[$i]*1);
         }
         return $peramalan;
     }
