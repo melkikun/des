@@ -70,7 +70,7 @@
                                     for ($i = 0; $i < count($data1); $i++):
                                         ?>
                                         <tr>
-                                            <td class="text-center"><?php echo $bulan[$i]; ?></td>
+                                            <td class="text-center"><?php echo $bulan[$i] . " 2014"; ?></td>
                                             <td class="text-center"><?php echo $data1[$i]; ?></td>
                                             <td class="text-center"><?php echo $data1[$i]; ?></td>
                                             <td class="text-center"><?php echo number_format($s1[$x][$i], 2); ?></td>
@@ -85,16 +85,16 @@
                                     endfor;
                                     ?>
                                     <tr>
-                                        <td class="text-center">Bulan Selanjutnya</td>
-                                        <td class="text-center">-</td>
-                                        <td class="text-center">-</td>
-                                        <td class="text-center">-</td>
-                                        <td class="text-center">-</td>
-                                        <td class="text-center">-</td>
-                                        <td class="text-center">-</td>
-                                        <td class="text-center"><?php echo number_format($at[$x][11] + $bt[$x][11], 2); ?></td>
-                                        <td class="text-center">-</td>
-                                        <td class="text-center"><?php echo number_format(array_sum($absolute[$x]) / count($bulan), 2); ?></td>
+                                        <td class="text-center text-warning">January 2015</td>
+                                        <td class="text-center text-warning"><?php echo $data2[0]; ?></td>
+                                        <td class="text-center text-warning"><?php echo $data2[0]; ?></td>
+                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['s1Peramalan'][12], 2); ?></td>
+                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['s2Peramalan'][12], 2); ?></td>
+                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['atPeramalan'][12], 2); ?></td>
+                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['btPeramalan'][12], 2); ?></td>
+                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['peramalanPeramalan'][12], 2); ?></td>
+                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['errorPeramalan'][12], 2); ?></td>
+                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['absolutePeramalan'][12], 2); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -138,8 +138,8 @@
                                 ?>
                                 <tr>
                                     <th class="text-center"><?php echo $bulan[$j]; ?></th>
-                                    <th class="text-center"><?php echo number_format($nextPeramalan['peramalanPeramalan'][$i], 2); ?></th>
-                                    <th class="text-center"><?php echo number_format($data2[$j], 2); ?></th>
+                                    <th class="text-center text-danger"><?php echo number_format($nextPeramalan['peramalanPeramalan'][$i], 2); ?></th>
+                                    <th class="text-center text-success"><?php echo number_format($data2[$j], 2); ?></th>
                                     <th class="text-center"><?php echo number_format($nextPeramalan['errorPeramalan'][$i], 2); ?></th>
                                     <th class="text-center"><?php echo number_format($nextPeramalan['absolutePeramalan'][$i], 2); ?></th>
                                 </tr>
@@ -171,13 +171,23 @@
 <script>
     var data1 = <?php echo json_encode($data1, JSON_NUMERIC_CHECK); ?>;
     var data2 = <?php echo json_encode($data2, JSON_NUMERIC_CHECK); ?>;
+    var ramalan = <?php echo json_encode($nextPeramalan['peramalanPeramalan'], JSON_NUMERIC_CHECK); ?>;
+    var ramalan1 = [];
+    var ramalan2 = [];
+    for (var i = 0; i < 12; i++) {
+        ramalan1.push(parseFloat(ramalan[i].toFixed(2)));
+    }
+
+    for (var j = 12; j < ramalan.length; j++) {
+        ramalan2.push(parseFloat(ramalan[j].toFixed(2)));
+    }
     $(document).ready(function () {
         Highcharts.chart('container', {
             chart: {
                 type: 'line'
             },
             title: {
-                text: 'Grafik Tahun Pertama '
+                text: '2014'
             },
             subtitle: {
                 text: ''
@@ -198,17 +208,23 @@
                     enableMouseTracking: false
                 }
             },
-            series: [{
-                    name: 'Tahun 1',
+            series: [
+                {
+                    name: 'Data Aktual 2014',
                     data: data1
-                }]
+                },
+                {
+                    name: 'Data Ramalan 2014',
+                    data: ramalan1
+                }
+            ]
         });
         Highcharts.chart('container2', {
             chart: {
                 type: 'line'
             },
             title: {
-                text: 'Grafik Tahun Kedua '
+                text: '2015'
             },
             subtitle: {
                 text: ''
@@ -230,8 +246,11 @@
                 }
             },
             series: [{
-                    name: 'Tahun 2',
+                    name: 'Data Aktual 2015',
                     data: data2
+                }, {
+                    name: 'Data Ramalan 2015',
+                    data: ramalan2
                 }]
         });
     });
