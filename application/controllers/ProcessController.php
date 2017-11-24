@@ -34,17 +34,17 @@ class ProcessController extends CI_Controller {
         //ambil data dari input excel kedua
         $kedua = $_FILES['kedua']['name'];
         $extKedua = pathinfo($kedua, PATHINFO_EXTENSION);
-        
+
         //tampilkan error jika pasal kosong
         if ($pasal == "") {
             echo json_encode(array("error" => "1", "message" => "pasal harus diisi"));
-        //tampilkan error jika tahun kosong
+            //tampilkan error jika tahun kosong
         } else if ($tahun == "") {
             echo json_encode(array("error" => "1", "message" => "tahun harus diisi"));
-        //tampilkan error jika  excel 1 kosong
+            //tampilkan error jika  excel 1 kosong
         } else if ($pertama == null) {
             echo json_encode(array("error" => "1", "message" => "file pertama harus diisi atau file pertama harus excel"));
-        //tampilkan error jika excel 2 kosong
+            //tampilkan error jika excel 2 kosong
         } else if ($kedua == null) {
             echo json_encode(array("error" => "1", "message" => "file pertama harus diisi atau file pertama harus excel"));
         } else {
@@ -90,7 +90,32 @@ class ProcessController extends CI_Controller {
     //proses perhitungan des
     public function prosesData() {
         //inisialisasi ke 12 bulan
-        $bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        $bulan = [
+            "Januari 2014",
+            "Februari 2014",
+            "Maret 2014",
+            "April 2014",
+            "Mei 2014",
+            "Juni 2014",
+            "Juli 2014",
+            "Agustus 2014",
+            "September 2014",
+            "Oktober 2014",
+            "November 2014",
+            "Desember 2014",
+            "Januari 2015",
+            "Februari 2015",
+            "Maret 2015",
+            "April 2015",
+            "Mei 2015",
+            "Juni 2015",
+            "Juli 2015",
+            "Agustus 2015",
+            "September 2015",
+            "Oktober 2015",
+            "November 2015",
+            "Desember 2015"
+        ];
         //ambil data 1 berupa excel 1
         $data1 = $this->input->get("data1");
         //ambil data 2 berupa excel 2
@@ -126,6 +151,50 @@ class ProcessController extends CI_Controller {
             //tampung nilai absolute
             $absolute[$index] = $this->peramalan->absoluteError($error[$index]);
         }
+        
+        
+        
+        //semua perhitungan 
+        $s1All = array();
+        //tampung data perhitungan s2
+        $s2All = array();
+        //tampung data perhitungan alpa
+        $atAll = array();
+        //tampung data perhitungan beta
+        $btAll = array();
+        //tampung data perhitungan peramalan
+        $peramalanAll = array();
+        //tampung data perhitungan error
+        $errorAll = array();
+        //tampung data perhitungan absolute
+        $absoluteAll = array();
+        //memulai perhitungan dengan alha 0.1 sampai alpha 0.9
+        for ($alpha = 0.1, $index = 0; $alpha <= 0.9; $alpha += 0.1, $index++) {
+            //tampung nilai s1
+            $s1All[$index] = $this->peramalan->sAksen($alpha, array_merge($data1, $data2));
+            //tampung nilai s2
+            $s2All[$index] = $this->peramalan->sDoubleAksen($alpha, $s1All[$index]);
+            //tampung nilai alpha
+            $atAll[$index] = $this->peramalan->konstantaA($s1All[$index], $s2All[$index]);
+            //tampung nilai beta
+            $btAll[$index] = $this->peramalan->konstantaB($alpha, $s1All[$index], $s2All[$index]);
+            //tampung nilai peramalan
+            $peramalanAll[$index] = $this->peramalan->peramalan($atAll[$index], $btAll[$index]);
+            //tampung nilai error
+            $errorAll[$index] = $this->peramalan->error(array_merge($data1, $data2), $peramalanAll[$index]);
+            //tampung nilai absolute
+            $absoluteAll[$index] = $this->peramalan->absoluteError($errorAll[$index]);
+        }
+
+        $all = array(
+            "s1All" => $s1All,
+            "s2All" => $s2All,
+            "atAll" => $atAll,
+            "btAll" => $btAll,
+            "peramalanAll" => $peramalanAll,
+            "errorAll" => $errorAll,
+            "absoluteAll" => $absoluteAll,
+        );
 
         //mencari mape terkecil
         $mapeTerkecil = 99999999999;
@@ -135,8 +204,8 @@ class ProcessController extends CI_Controller {
         $alpha = 0;
         //perhitungan alpha index terkecil
         for ($i = 0, $x = 0.1; $i < count($absolute); $i++, $x += 0.1) {
-            if ($mapeTerkecil > (array_sum($absolute[$i]) / 12)) {
-                $mapeTerkecil = (array_sum($absolute[$i]) / 12);
+            if ($mapeTerkecil > (array_sum($absolute[$i]) / count($data1))) {
+                $mapeTerkecil = (array_sum($absolute[$i]) / count($data1));
                 $mapeIndex = $i;
                 $alpha = $x;
             }
@@ -175,15 +244,15 @@ class ProcessController extends CI_Controller {
             "peramalan" => $peramalan,
             "error" => $error,
             "absolute" => $absolute,
-            "index" => $mapeIndex,
+            "mape_index" => $mapeIndex,
             "bulan" => $bulan,
             "data1" => $data1,
             "data2" => $data2,
             "nextPeramalan" => $nextPeramalan,
-            "alphax" => $alpha
+            "alphax" => $alpha,
+            "all"=>$all
         );
         
-        //tampilkan di view hasil
         echo $this->load->view('hasil', $return, FALSE);
     }
 

@@ -33,7 +33,7 @@
                                     ?>
                                     <tr <?php if ($i == $index) echo "style='background-color:red;'"; ?>>
                                         <td><?php echo $alpha; ?></td>
-                                        <td><?php echo number_format(($at[$i][11] + $bt[$i][11]), 2); ?></td>
+                                        <td><?php echo number_format($all['peramalanAll'][$i][12], 2); ?></td>
                                         <td><?php echo number_format(array_sum($absolute[$i]), 2); ?></td>
                                         <td><?php echo number_format(array_sum($absolute[$i]) / 12, 2); ?></td>
                                     </tr>
@@ -70,33 +70,55 @@
                                     for ($i = 0; $i < count($data1); $i++):
                                         ?>
                                         <tr>
-                                            <td class="text-center"><?php echo $bulan[$i] . " 2014"; ?></td>
-                                            <td class="text-center"><?php echo $data1[$i]; ?></td>
-                                            <td class="text-center"><?php echo $data1[$i]; ?></td>
-                                            <td class="text-center"><?php echo number_format($s1[$x][$i], 2); ?></td>
-                                            <td class="text-center"><?php echo number_format($s2[$x][$i], 2); ?></td>
-                                            <td class="text-center"><?php echo number_format($at[$x][$i], 2); ?></td>
-                                            <td class="text-center"><?php echo number_format($bt[$x][$i], 2); ?></td>
-                                            <td class="text-center"><?php echo number_format($peramalan[$x][$i], 2); ?></td>
-                                            <td class="text-center"><?php echo number_format($error[$x][$i], 2); ?></td>
-                                            <td class="text-center"><?php echo number_format($absolute[$x][$i], 2); ?></td>
+                                            <td class="text-center">
+                                                <?php echo $bulan[$i]; ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo $data1[$i]; ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo $data1[$i]; ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($s1[$x][$i], 2); ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($s2[$x][$i], 2); ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($at[$x][$i], 2); ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($bt[$x][$i], 2); ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($peramalan[$x][$i], 2); ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($error[$x][$i], 2); ?>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo number_format($absolute[$x][$i], 2); ?>
+                                            </td>
                                         </tr>
                                         <?php
                                     endfor;
                                     ?>
-                                    <tr>
-                                        <td class="text-center text-warning">January 2015</td>
-                                        <td class="text-center text-warning"><?php echo $data2[0]; ?></td>
-                                        <td class="text-center text-warning"><?php echo $data2[0]; ?></td>
-                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['s1Peramalan'][12], 2); ?></td>
-                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['s2Peramalan'][12], 2); ?></td>
-                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['atPeramalan'][12], 2); ?></td>
-                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['btPeramalan'][12], 2); ?></td>
-                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['peramalanPeramalan'][12], 2); ?></td>
-                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['errorPeramalan'][12], 2); ?></td>
-                                        <td class="text-center text-warning"><?php echo number_format($nextPeramalan['absolutePeramalan'][12], 2); ?></td>
-                                    </tr>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th class="text-center">Januari 2015</th>
+                                        <th class="text-center">-</th>
+                                        <th class="text-center">-</th>
+                                        <th class="text-center">-</th>
+                                        <th class="text-center">-</th>
+                                        <th class="text-center">-</th>
+                                        <th class="text-center">-</th>
+                                        <th class="text-center"><?php echo number_format($all['peramalanAll'][$x][12], 2); ?></th>
+                                        <th class="text-center">-</th>
+                                        <th class="text-center">-</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     <?php endfor; ?>
@@ -110,8 +132,8 @@
         <div class="box box-primary">
             <div class="box-body text-danger">
                 Kesimpulan : Dapat disimpulkan dalam peramalan ini MAPE yang terkecil terdapat pada alpha <b><i><?php echo $alphax ?></i></b> 
-                dengan nilai MAPE <b><i><?php echo number_format(array_sum($absolute[$index]) / count($bulan), 2) ?></i></b>,
-                dan hasil peramalan bulan januari tahun berikutnya adalah <?php echo number_format($at[$index][11] + $bt[$index][11], 2); ?> kecelakaan
+                dengan nilai MAPE <b><i><?php echo number_format(array_sum($absolute[$mape_index]) / count($data1),2) ?></i></b>,
+                dan hasil peramalan bulan januari tahun berikutnya adalah <?php echo number_format($nextPeramalan['peramalanPeramalan'][12], 2); ?> kecelakaan
             </div>
         </div>
     </div>
