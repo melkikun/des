@@ -1,3 +1,6 @@
+<?php
+
+?>
 <div class="row">
     <div class="col-md-12">
         <div class="box box-primary">
@@ -23,7 +26,7 @@
                                 <tr>
                                     <th>Alpha <?php echo $data['mape']; ?></th>
                                     <th>Peramalan</th>
-                                    <th>APE</th>
+                                    <th>Total PE</th>
                                     <th>MAPE</th>
                                 </tr>
                             </thead>
@@ -31,7 +34,7 @@
                                 <?php
                                 for ($i = 0, $alpha = 0.1; $i < count($absolute); $i++, $alpha += 0.1) {
                                     ?>
-                                    <tr <?php if ($i == $index) echo "style='background-color:red;'"; ?>>
+                                    <tr <?php if ($i == $mape_index) echo "style='background-color:red;'"; ?>>
                                         <td><?php echo $alpha; ?></td>
                                         <td><?php echo number_format($all['peramalanAll'][$i][12], 2); ?></td>
                                         <td><?php echo number_format(array_sum($absolute[$i]), 2); ?></td>
@@ -60,7 +63,7 @@
                                         <th class="text-center">Nilai b</th>
                                         <th class="text-center">Ramalan</th>
                                         <th class="text-center">Pe</th>
-                                        <th class="text-center">Mape</th>
+                                        <th class="text-center">Ape</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -159,7 +162,7 @@
                             for ($i = 12, $j = 0; $i < count($nextPeramalan['s1Peramalan']); $i++, $j++) {
                                 ?>
                                 <tr>
-                                    <th class="text-center"><?php echo $bulan[$j]; ?></th>
+                                    <th class="text-center"><?php echo $bulan[$i]; ?></th>
                                     <th class="text-center text-danger"><?php echo number_format($nextPeramalan['peramalanPeramalan'][$i], 2); ?></th>
                                     <th class="text-center text-success"><?php echo number_format($data2[$j], 2); ?></th>
                                     <th class="text-center"><?php echo number_format($nextPeramalan['errorPeramalan'][$i], 2); ?></th>

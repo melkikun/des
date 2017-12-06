@@ -156,9 +156,9 @@
                                                 </tbody>
                                             </table>
                                         </div>
-<!--                                        <div class="col-sm-6">
-                                            <button type="button" class="btn btn-danger" onclick="prosesData();">Process</button>
-                                        </div>-->
+                                        <!--                                        <div class="col-sm-6">
+                                                                                    <button type="button" class="btn btn-danger" onclick="prosesData();">Process</button>
+                                                                                </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -180,37 +180,37 @@
         <script src="<?php echo base_url('assets/'); ?>dist/js/adminlte.min.js"></script>
         <script src="<?php echo base_url('assets/'); ?>dist/js/demo.js"></script>
         <script>
-                                                $(document).ready(function () {
-                                                    prosesData();
-                                                });
-                                                function prosesData() {
+            $(document).ready(function () {
+                prosesData();
+            });
+            function prosesData() {
 
-                                                    var data1 = [];
-                                                    var data2 = [];
+                var data1 = [];
+                var data2 = [];
 <?php
 foreach ($data as $key => $value) {
     ?>
-                                                        data1.push("<?php echo $value['tahun_pertama']; ?>");
-                                                        data2.push("<?php echo $value['tahun_kedua']; ?>");
+                    data1.push("<?php echo $value['tahun_pertama']; ?>");
+                    data2.push("<?php echo $value['tahun_kedua']; ?>");
     <?php
 }
 ?>
 
-                                                    $.ajax({
-                                                        type: 'GET',
-                                                        url: "<?php echo base_url(); ?>proses/proses-data",
-                                                        data: {data1: data1, data2: data2},
-                                                        beforeSend: function (xhr) {
-                                                            $('.loading-overlay').show();
-                                                        },
-                                                        success: function (response, textStatus, jqXHR) {
-                                                            $('#hitung').html(response);
-                                                        },
-                                                        complete: function (jqXHR, textStatus) {
-                                                            $('.loading-overlay').hide();
-                                                        }
-                                                    });
-                                                }
+                $.ajax({
+                    type: 'GET',
+                    url: "<?php echo base_url(); ?>proses/proses-data",
+                    data: {data1: data1, data2: data2},
+                    beforeSend: function (xhr) {
+                        $('.loading-overlay').show();
+                    },
+                    success: function (response, textStatus, jqXHR) {
+                        $('#hitung').html(response);
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        $('.loading-overlay').hide();
+                    }
+                });
+            }
         </script>
     </body>
 </html>
